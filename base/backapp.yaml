@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backapp-deployment
+  labels:
+    homework: backapp
+spec:
+  selector:
+    matchLabels:
+      homework: backapp
+  template:
+    metadata:
+      labels:
+        homework: backapp
+    spec:
+      containers:
+        - name: backapp
+          image: quay.io/drsylent/cubix/block3/homework-backapp:springboot4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_DEFAULT_MESSAGE
+              value: "backapp"
+            - name: JAVA_OPTS
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backapp-service
+  labels:
+    homework: backapp
+spec:
+  type: ClusterIP
+  selector:
+    homework: backapp
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

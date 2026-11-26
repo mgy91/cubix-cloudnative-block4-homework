@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: hw4-test
+
+resources:
+  - ../../base
+  - ingress.yaml
+
+replicas:
+  - name: frontapp-deployment
+    count: 1
+  - name: backapp-deployment
+    count: 1
